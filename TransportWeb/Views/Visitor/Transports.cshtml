@@ -1,0 +1,27 @@
+﻿@model List<TransportWeb.Models.ViewData_TransportRoute>
+
+@{
+    ViewBag.Title = "Transports";
+}
+
+<h2>Transports</h2>
+
+@foreach( var transport in Model )
+{
+    <div class="row" onclick="location.href='/Transport/@transport.Transport.Id';" style="cursor: pointer">
+        <div class="col-md-6">
+            @if (transport.Transport.Type == "normal")
+            {
+                <span class="label label-default">@transport.Transport.Number</span>
+            }
+            else
+            {
+                <span class="label label-danger">@transport.Transport.Number</span>
+            }
+        </div>
+        <div class="col-md-6">
+            @transport.FirstRoute.Name
+        </div>
+    </div>
+}
+

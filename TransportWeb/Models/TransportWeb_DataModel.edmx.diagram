@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="bfe17160b9c445a5bef45d4f1ece859b" Name="Diagram1" ShowGrid="true" ZoomLevel="100" >
+        <EntityTypeShape EntityType="TransportWeb_DataModel.Transport" Width="1.5" PointX="5.25" PointY="4.125" />
+        <EntityTypeShape EntityType="TransportWeb_DataModel.Route" Width="1.5" PointX="3" PointY="2.75" />
+        <EntityTypeShape EntityType="TransportWeb_DataModel.Route_Segment" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="TransportWeb_DataModel.Timetable" Width="1.5" PointX="5.25" PointY="7.25" />
+        <EntityTypeShape EntityType="TransportWeb_DataModel.User" Width="1.5" PointX="7.875" PointY="2.625" IsExpanded="true" />
+        <AssociationConnector Association="TransportWeb_DataModel.RouteTransport" />
+        <EntityTypeShape EntityType="TransportWeb_DataModel.Stop" Width="1.5" PointX="3" PointY="6.625" />
+        <AssociationConnector Association="TransportWeb_DataModel.Route_SegmentsStop" />
+        <AssociationConnector Association="TransportWeb_DataModel.StopTimetable" />
+        <AssociationConnector Association="TransportWeb_DataModel.RouteTimetable" />
+        <AssociationConnector Association="TransportWeb_DataModel.Route_SegmentsRoute" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

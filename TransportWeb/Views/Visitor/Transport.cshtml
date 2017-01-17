@@ -1,0 +1,41 @@
+﻿@model TransportWeb.Models.ViewData_TransportRoutes
+@{
+    ViewBag.Title = "Transport";
+}
+
+<h2>@(Model.Transport.Type == "normal" ? "" : "Expresis") @Model.Transport.Number</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <h3>Reisu saraksts</h3>
+        @foreach (var route in Model.Routes)
+        {
+            <div class="row">
+                <a href="/Transport/@Model.Transport.Id/@route.Route.Id">
+                    @if (route.Selected)
+                {
+                        <b>@route.Route.Name</b>
+                    }
+                    else
+                    {
+                        @route.Route.Name
+                    }
+                </a>
+            </div>
+        }
+    </div>
+    <div class="col-md-6">
+        <h3>Pieturu saraksts</h3>
+        @foreach (var stop in Model.Stops)
+        {
+            <div class="row">
+                @stop.Name
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+

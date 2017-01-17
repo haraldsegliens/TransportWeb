@@ -1,0 +1,44 @@
+﻿@model List<TransportWeb.Models.ViewData_StopTransports>
+
+@{
+    ViewBag.Title = "Stops";
+}
+
+<h2>Stops</h2>
+
+@using (Html.BeginForm("Stops","Visitor", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <div id="imaginary_container">
+                <div class="input-group stylish-input-group">
+                    @Html.TextBox("searchString", null, new { @class="form-control", placeholder = ViewBag.searchString })
+                    <span class="input-group-addon">
+                        <button type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@foreach (var stop in Model)
+{
+    <div class="row">
+        <div class="col-md-6"><a href="/Stop/@stop.Stop.Id">@stop.Stop.Name</a></div>
+        <div class="col-md-6">
+            @foreach (var normal in stop.NormalTransport)
+            { 
+                <span class="label label-default">@normal.Number</span>
+            }
+            @foreach (var express in stop.ExpressTransport)
+            {
+                <span class="label label-danger">@express.Number</span>
+            }
+        </div>
+        
+    </div>
+}
+

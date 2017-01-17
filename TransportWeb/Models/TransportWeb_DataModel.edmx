@@ -1,0 +1,385 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TransportWeb_DataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="TransportWeb_DataModelStoreContainer">
+    <EntitySet Name="Transports" EntityType="TransportWeb_DataModel.Store.Transports" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Routes" EntityType="TransportWeb_DataModel.Store.Routes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Route_Segments" EntityType="TransportWeb_DataModel.Store.Route_Segments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Timetables" EntityType="TransportWeb_DataModel.Store.Timetables" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="TransportWeb_DataModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Stops" EntityType="TransportWeb_DataModel.Store.Stops" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="RouteTransport" Association="TransportWeb_DataModel.Store.RouteTransport">
+      <End Role="Route" EntitySet="Routes" />
+      <End Role="Transport" EntitySet="Transports" />
+    </AssociationSet>
+    <AssociationSet Name="Route_SegmentsStop" Association="TransportWeb_DataModel.Store.Route_SegmentsStop">
+      <End Role="Route_Segments" EntitySet="Route_Segments" />
+      <End Role="Stop" EntitySet="Stops" />
+    </AssociationSet>
+    <AssociationSet Name="StopTimetable" Association="TransportWeb_DataModel.Store.StopTimetable">
+      <End Role="Stop" EntitySet="Stops" />
+      <End Role="Timetable" EntitySet="Timetables" />
+    </AssociationSet>
+    <AssociationSet Name="RouteTimetable" Association="TransportWeb_DataModel.Store.RouteTimetable">
+      <End Role="Route" EntitySet="Routes" />
+      <End Role="Timetable" EntitySet="Timetables" />
+    </AssociationSet>
+    <AssociationSet Name="Route_SegmentsRoute" Association="TransportWeb_DataModel.Store.Route_SegmentsRoute">
+      <End Role="Route_Segments" EntitySet="Route_Segments" />
+      <End Role="Route" EntitySet="Routes" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Transports">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Number" Type="int" Nullable="false" DefaultValue="0" />
+  </EntityType>
+  <EntityType Name="Routes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="T_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Route_Segments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Order" Type="int" Nullable="false" />
+    <Property Name="R_Id" Type="int" Nullable="false" />
+    <Property Name="S_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Timetables">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="S_Id" Type="int" Nullable="false" />
+    <Property Name="R_Id" Type="int" Nullable="false" />
+    <Property Name="Time" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password_Cache" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password_Salt" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Access" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Session" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Stops">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="RouteTransport">
+    <End Role="Route" Type="TransportWeb_DataModel.Store.Routes" Multiplicity="*" />
+    <End Role="Transport" Type="TransportWeb_DataModel.Store.Transports" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Transport">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Route">
+        <PropertyRef Name="T_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Route_SegmentsStop">
+    <End Role="Route_Segments" Type="TransportWeb_DataModel.Store.Route_Segments" Multiplicity="*" />
+    <End Role="Stop" Type="TransportWeb_DataModel.Store.Stops" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Stop">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Route_Segments">
+        <PropertyRef Name="S_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="StopTimetable">
+    <End Role="Stop" Type="TransportWeb_DataModel.Store.Stops" Multiplicity="1" />
+    <End Role="Timetable" Type="TransportWeb_DataModel.Store.Timetables" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Stop">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Timetable">
+        <PropertyRef Name="S_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RouteTimetable">
+    <End Role="Route" Type="TransportWeb_DataModel.Store.Routes" Multiplicity="1" />
+    <End Role="Timetable" Type="TransportWeb_DataModel.Store.Timetables" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Route">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Timetable">
+        <PropertyRef Name="R_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Route_SegmentsRoute">
+    <End Role="Route_Segments" Type="TransportWeb_DataModel.Store.Route_Segments" Multiplicity="*" />
+    <End Role="Route" Type="TransportWeb_DataModel.Store.Routes" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Route">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Route_Segments">
+        <PropertyRef Name="R_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="TransportWeb_DataModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="TransportWeb_DataModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Transports" EntityType="TransportWeb_DataModel.Transport" />
+          <EntitySet Name="Routes" EntityType="TransportWeb_DataModel.Route" />
+          <EntitySet Name="Route_Segments" EntityType="TransportWeb_DataModel.Route_Segment" />
+          <EntitySet Name="Timetables" EntityType="TransportWeb_DataModel.Timetable" />
+          <EntitySet Name="Users" EntityType="TransportWeb_DataModel.User" />
+          <AssociationSet Name="RouteTransport" Association="TransportWeb_DataModel.RouteTransport">
+            <End Role="Route" EntitySet="Routes" />
+            <End Role="Transport" EntitySet="Transports" />
+          </AssociationSet>
+          <EntitySet Name="Stops" EntityType="TransportWeb_DataModel.Stop" />
+          <AssociationSet Name="Route_SegmentsStop" Association="TransportWeb_DataModel.Route_SegmentsStop">
+            <End Role="Route_Segments" EntitySet="Route_Segments" />
+            <End Role="Stop" EntitySet="Stops" />
+          </AssociationSet>
+          <AssociationSet Name="StopTimetable" Association="TransportWeb_DataModel.StopTimetable">
+            <End Role="Stop" EntitySet="Stops" />
+            <End Role="Timetable" EntitySet="Timetables" />
+          </AssociationSet>
+          <AssociationSet Name="RouteTimetable" Association="TransportWeb_DataModel.RouteTimetable">
+            <End Role="Route" EntitySet="Routes" />
+            <End Role="Timetable" EntitySet="Timetables" />
+          </AssociationSet>
+          <AssociationSet Name="Route_SegmentsRoute" Association="TransportWeb_DataModel.Route_SegmentsRoute">
+            <End Role="Route_Segments" EntitySet="Route_Segments" />
+            <End Role="Route" EntitySet="Routes" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Transport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" DefaultValue="0" />
+          <NavigationProperty Name="Routes" Relationship="TransportWeb_DataModel.RouteTransport" FromRole="Transport" ToRole="Route" />
+        </EntityType>
+        <EntityType Name="Route">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="T_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Transport" Relationship="TransportWeb_DataModel.RouteTransport" FromRole="Route" ToRole="Transport" />
+          <NavigationProperty Name="Segments" Relationship="TransportWeb_DataModel.Route_SegmentsRoute" FromRole="Route" ToRole="Route_Segments" />
+        </EntityType>
+        <EntityType Name="Route_Segment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" />
+          <Property Name="Order" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="R_Id" Type="Int32" Nullable="false" />
+          <Property Name="S_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Stop" Relationship="TransportWeb_DataModel.Route_SegmentsStop" FromRole="Route_Segments" ToRole="Stop" />
+          <NavigationProperty Name="Route" Relationship="TransportWeb_DataModel.Route_SegmentsRoute" FromRole="Route_Segments" ToRole="Route" />
+        </EntityType>
+        <EntityType Name="Timetable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" />
+          <Property Name="S_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="R_Id" Type="Int32" Nullable="false" />
+          <Property Name="Time" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Stop" Relationship="TransportWeb_DataModel.StopTimetable" FromRole="Timetable" ToRole="Stop" />
+          <NavigationProperty Name="Route" Relationship="TransportWeb_DataModel.RouteTimetable" FromRole="Timetable" ToRole="Route" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" />
+          <Property Name="Password_Cache" Type="String" Nullable="false" />
+          <Property Name="Password_Salt" Type="String" Nullable="false" />
+          <Property Name="Access" Type="String" Nullable="false" />
+          <Property Name="Session" Type="String" Nullable="true" />
+        </EntityType>
+        <Association Name="RouteTransport">
+          <End Type="TransportWeb_DataModel.Route" Role="Route" Multiplicity="*" />
+          <End Type="TransportWeb_DataModel.Transport" Role="Transport" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Transport">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Route">
+              <PropertyRef Name="T_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Stop">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="Route_SegmentsStop">
+          <End Type="TransportWeb_DataModel.Route_Segment" Role="Route_Segments" Multiplicity="*" />
+          <End Type="TransportWeb_DataModel.Stop" Role="Stop" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Stop">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Route_Segments">
+              <PropertyRef Name="S_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="StopTimetable">
+          <End Type="TransportWeb_DataModel.Stop" Role="Stop" Multiplicity="1" />
+          <End Type="TransportWeb_DataModel.Timetable" Role="Timetable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stop">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Timetable">
+              <PropertyRef Name="S_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RouteTimetable">
+          <End Type="TransportWeb_DataModel.Route" Role="Route" Multiplicity="1" />
+          <End Type="TransportWeb_DataModel.Timetable" Role="Timetable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Route">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Timetable">
+              <PropertyRef Name="R_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Route_SegmentsRoute">
+          <End Type="TransportWeb_DataModel.Route_Segment" Role="Route_Segments" Multiplicity="*" />
+          <End Type="TransportWeb_DataModel.Route" Role="Route" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Route">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Route_Segments">
+              <PropertyRef Name="R_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TransportWeb_DataModelStoreContainer" CdmEntityContainer="TransportWeb_DataModelContainer">
+    <EntitySetMapping Name="Transports">
+      <EntityTypeMapping TypeName="IsTypeOf(TransportWeb_DataModel.Transport)">
+        <MappingFragment StoreEntitySet="Transports">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Number" ColumnName="Number" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Routes">
+      <EntityTypeMapping TypeName="IsTypeOf(TransportWeb_DataModel.Route)">
+        <MappingFragment StoreEntitySet="Routes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="T_Id" ColumnName="T_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Route_Segments">
+      <EntityTypeMapping TypeName="IsTypeOf(TransportWeb_DataModel.Route_Segment)">
+        <MappingFragment StoreEntitySet="Route_Segments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Order" ColumnName="Order" />
+          <ScalarProperty Name="R_Id" ColumnName="R_Id" />
+          <ScalarProperty Name="S_Id" ColumnName="S_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Timetables">
+      <EntityTypeMapping TypeName="IsTypeOf(TransportWeb_DataModel.Timetable)">
+        <MappingFragment StoreEntitySet="Timetables">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="S_Id" ColumnName="S_Id" />
+          <ScalarProperty Name="R_Id" ColumnName="R_Id" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(TransportWeb_DataModel.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password_Cache" ColumnName="Password_Cache" />
+          <ScalarProperty Name="Password_Salt" ColumnName="Password_Salt" />
+          <ScalarProperty Name="Access" ColumnName="Access" />
+          <ScalarProperty Name="Session" ColumnName="Session" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Stops">
+      <EntityTypeMapping TypeName="IsTypeOf(TransportWeb_DataModel.Stop)">
+        <MappingFragment StoreEntitySet="Stops">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
