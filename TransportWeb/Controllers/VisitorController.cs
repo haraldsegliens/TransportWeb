@@ -154,6 +154,7 @@ namespace TransportWeb.Controllers
             var user = UserSystem.IsAuthenticated(this.HttpContext.Session);
             var viewData = new List<ViewData_TransportRoute>();
             var transports = from s in db.Transports select s;
+            transports = transports.OrderBy(x => x.Number);
             if (user == null || user.Access != "express")
                 transports = transports.Where(t => t.Type != "express");
             foreach(var transport in transports)
