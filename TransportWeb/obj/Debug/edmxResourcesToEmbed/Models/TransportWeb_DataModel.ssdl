@@ -7,6 +7,7 @@
     <EntitySet Name="Timetables" EntityType="TransportWeb_DataModel.Store.Timetables" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Users" EntityType="TransportWeb_DataModel.Store.Users" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Stops" EntityType="TransportWeb_DataModel.Store.Stops" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="User_Transport_CounterSet" EntityType="TransportWeb_DataModel.Store.User_Transport_CounterSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="RouteTransport" Association="TransportWeb_DataModel.Store.RouteTransport">
       <End Role="Route" EntitySet="Routes" />
       <End Role="Transport" EntitySet="Transports" />
@@ -26,6 +27,10 @@
     <AssociationSet Name="Route_SegmentsRoute" Association="TransportWeb_DataModel.Store.Route_SegmentsRoute">
       <End Role="Route_Segments" EntitySet="Route_Segments" />
       <End Role="Route" EntitySet="Routes" />
+    </AssociationSet>
+    <AssociationSet Name="User_Transport_CounterUser" Association="TransportWeb_DataModel.Store.User_Transport_CounterUser">
+      <End Role="User_Transport_Counter" EntitySet="User_Transport_CounterSet" />
+      <End Role="User" EntitySet="Users" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Transports">
@@ -79,6 +84,15 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User_Transport_CounterSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="User_Id" Type="int" Nullable="false" />
+    <Property Name="T_Id" Type="int" Nullable="false" />
+    <Property Name="Count" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="RouteTransport">
     <End Role="Route" Type="TransportWeb_DataModel.Store.Routes" Multiplicity="*" />
@@ -137,6 +151,18 @@
       </Principal>
       <Dependent Role="Route_Segments">
         <PropertyRef Name="R_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="User_Transport_CounterUser">
+    <End Role="User_Transport_Counter" Type="TransportWeb_DataModel.Store.User_Transport_CounterSet" Multiplicity="*" />
+    <End Role="User" Type="TransportWeb_DataModel.Store.Users" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User_Transport_Counter">
+        <PropertyRef Name="User_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

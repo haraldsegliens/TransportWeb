@@ -87,6 +87,8 @@ namespace TransportWeb.Utils
                     return "Expresis";
                 case "stop-list":
                     return "Pieturu saraksts";
+                case "favorite-transports":
+                    return "Mīļākie transporti";
                 default:
                     return code;
             }
@@ -148,6 +150,8 @@ namespace TransportWeb.Utils
                     return "Express";
                 case "stop-list":
                     return "Stop list";
+                case "favorite-transports":
+                    return "Favorite transports";
                 default:
                     return code;
             }

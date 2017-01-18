@@ -120,8 +120,6 @@
     <Content Include="App_Data\TransportWeb_Database_log.ldf">
       <DependentUpon>TransportWeb_Database.mdf</DependentUpon>
     </Content>
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -155,20 +153,13 @@
     <Compile Include="Models\Config_Transport.cs" />
     <Compile Include="Models\Config_Root.cs" />
     <Compile Include="Models\Config_User.cs" />
+    <Compile Include="Models\Route.cs">
+      <DependentUpon>TransportWeb_DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Route_Segment.cs">
       <DependentUpon>TransportWeb_DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SessionData_User.cs" />
-    <Compile Include="Models\User.cs">
-      <DependentUpon>TransportWeb_DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ViewData_RouteTimetable.cs" />
-    <Compile Include="Models\ViewData_RouteStops.cs" />
-    <Compile Include="Models\ViewData_StopRoutes.cs" />
-    <Compile Include="Models\ViewData_StopTransports.cs" />
-    <Compile Include="Models\Route.cs">
-      <DependentUpon>TransportWeb_DataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Stop.cs">
       <DependentUpon>TransportWeb_DataModel.tt</DependentUpon>
     </Compile>
@@ -178,6 +169,16 @@
     <Compile Include="Models\Transport.cs">
       <DependentUpon>TransportWeb_DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>TransportWeb_DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User_Transport_Counter.cs">
+      <DependentUpon>TransportWeb_DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewData_RouteTimetable.cs" />
+    <Compile Include="Models\ViewData_RouteStops.cs" />
+    <Compile Include="Models\ViewData_StopRoutes.cs" />
+    <Compile Include="Models\ViewData_StopTransports.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

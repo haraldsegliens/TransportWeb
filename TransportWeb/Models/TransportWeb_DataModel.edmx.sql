@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/17/2017 17:53:30
+-- Date Created: 01/18/2017 11:38:47
 -- Generated from EDMX file: C:\Users\GAME\documents\visual studio 2015\Projects\TransportWeb\TransportWeb\Models\TransportWeb_DataModel.edmx
 -- --------------------------------------------------
 
@@ -37,8 +37,8 @@ GO
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[Transport]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Transport];
+IF OBJECT_ID(N'[dbo].[Transports]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Transports];
 GO
 IF OBJECT_ID(N'[dbo].[Routes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Routes];
@@ -112,6 +112,15 @@ CREATE TABLE [dbo].[Stops] (
 );
 GO
 
+-- Creating table 'User_Transport_CounterSet'
+CREATE TABLE [dbo].[User_Transport_CounterSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [User_Id] int  NOT NULL,
+    [T_Id] int  NOT NULL,
+    [Count] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -149,6 +158,12 @@ GO
 -- Creating primary key on [Id] in table 'Stops'
 ALTER TABLE [dbo].[Stops]
 ADD CONSTRAINT [PK_Stops]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'User_Transport_CounterSet'
+ALTER TABLE [dbo].[User_Transport_CounterSet]
+ADD CONSTRAINT [PK_User_Transport_CounterSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -229,6 +244,21 @@ GO
 CREATE INDEX [IX_FK_Route_SegmentsRoute]
 ON [dbo].[Route_Segments]
     ([R_Id]);
+GO
+
+-- Creating foreign key on [User_Id] in table 'User_Transport_CounterSet'
+ALTER TABLE [dbo].[User_Transport_CounterSet]
+ADD CONSTRAINT [FK_User_Transport_CounterUser]
+    FOREIGN KEY ([User_Id])
+    REFERENCES [dbo].[Users]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_User_Transport_CounterUser'
+CREATE INDEX [IX_FK_User_Transport_CounterUser]
+ON [dbo].[User_Transport_CounterSet]
+    ([User_Id]);
 GO
 
 -- --------------------------------------------------

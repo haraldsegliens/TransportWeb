@@ -9,13 +9,15 @@
         <EntityTypeShape EntityType="TransportWeb_DataModel.Route" Width="1.5" PointX="3" PointY="2.75" />
         <EntityTypeShape EntityType="TransportWeb_DataModel.Route_Segment" Width="1.5" PointX="0.75" PointY="3.75" />
         <EntityTypeShape EntityType="TransportWeb_DataModel.Timetable" Width="1.5" PointX="5.25" PointY="7.25" />
-        <EntityTypeShape EntityType="TransportWeb_DataModel.User" Width="1.5" PointX="7.875" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TransportWeb_DataModel.User" Width="1.5" PointX="6.875" PointY="1.625" IsExpanded="true" />
         <AssociationConnector Association="TransportWeb_DataModel.RouteTransport" />
         <EntityTypeShape EntityType="TransportWeb_DataModel.Stop" Width="1.5" PointX="3" PointY="6.625" />
         <AssociationConnector Association="TransportWeb_DataModel.Route_SegmentsStop" />
         <AssociationConnector Association="TransportWeb_DataModel.StopTimetable" />
         <AssociationConnector Association="TransportWeb_DataModel.RouteTimetable" />
         <AssociationConnector Association="TransportWeb_DataModel.Route_SegmentsRoute" />
+        <EntityTypeShape EntityType="TransportWeb_DataModel.User_Transport_Counter" Width="1.5" PointX="9" PointY="4.75" />
+        <AssociationConnector Association="TransportWeb_DataModel.User_Transport_CounterUser" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

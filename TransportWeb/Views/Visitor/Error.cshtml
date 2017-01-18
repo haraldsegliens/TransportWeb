@@ -1,11 +1,11 @@
 ﻿
 @{
-    ViewBag.Title = TransportWeb.Utils.Localization.getText((string)Session["language"], "error");
+    ViewBag.Title = TransportWeb.Utils.Localization.getText(Context, "error");
 }
 
 <div class="alert alert-danger" role="alert">
     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-    <span class="sr-only">@TransportWeb.Utils.Localization.getText((string)Session["language"], "error"):</span>
+    <span class="sr-only">@TransportWeb.Utils.Localization.getText(Context, "error"):</span>
     @ViewBag.error
 </div>
 

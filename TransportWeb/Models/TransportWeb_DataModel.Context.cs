@@ -31,5 +31,6 @@ namespace TransportWeb.Models
         public virtual DbSet<Timetable> Timetables { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Stop> Stops { get; set; }
+        public virtual DbSet<User_Transport_Counter> User_Transport_CounterSet { get; set; }
     }
 }

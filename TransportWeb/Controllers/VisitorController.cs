@@ -14,7 +14,21 @@ namespace TransportWeb.Controllers
         // GET: Visitor
         public ActionResult Index()
         {
-            return View();
+            var user = UserSystem.IsAuthenticated(this.HttpContext.Session);
+            if (user == null)
+                return View(new List<ViewData_TransportRoute>());
+            else
+            {
+                var viewData = new List<ViewData_TransportRoute>();
+                var counters = db.User_Transport_CounterSet.Where(x => x.User.Username == user.Username).OrderByDescending(x => x.Count);
+                foreach(var counter in counters)
+                {
+                    var data = getTransportRoute(db.Transports.First(x=>x.Id==counter.T_Id));
+                    viewData.Add(data);
+                }
+                return View(viewData);
+            }
+                
         }
 
         [HttpPost]
@@ -127,19 +141,24 @@ namespace TransportWeb.Controllers
             return View(viewData);
         }
 
+        private ViewData_TransportRoute getTransportRoute(Transport transport)
+        {
+            var transportRoute = new ViewData_TransportRoute();
+            transportRoute.Transport = transport;
+            transportRoute.FirstRoute = transport.Routes.First();
+            return transportRoute;
+        }
+
         public ActionResult Transports()
         {
             var user = UserSystem.IsAuthenticated(this.HttpContext.Session);
-
             var viewData = new List<ViewData_TransportRoute>();
             var transports = from s in db.Transports select s;
             if (user == null || user.Access != "express")
                 transports = transports.Where(t => t.Type != "express");
             foreach(var transport in transports)
             {
-                var transportRoute = new ViewData_TransportRoute();
-                transportRoute.Transport = transport;
-                transportRoute.FirstRoute = transport.Routes.First();
+                var transportRoute = getTransportRoute(transport);
                 viewData.Add(transportRoute);
             }
             return View(viewData);
@@ -148,7 +167,6 @@ namespace TransportWeb.Controllers
         public ActionResult Transport(int transport_id, int? route_id)
         {
             var user = UserSystem.IsAuthenticated(this.HttpContext.Session);
-
             if (!route_id.HasValue)
             {
                 route_id = db.Transports.First(t => t.Id == transport_id).Routes.First().Id;
@@ -161,6 +179,18 @@ namespace TransportWeb.Controllers
             {
                 return RedirectToAction("Error", new { cause = Localization.getText(this.HttpContext, "unauth-access") });
             }
+
+            var counter = db.User_Transport_CounterSet.FirstOrDefault(x => x.User.Username == user.Username && x.T_Id == transport_id);
+            if (counter == null)
+            {
+                counter = db.User_Transport_CounterSet.Add(new User_Transport_Counter());
+                counter.User = db.Users.First(x => x.Username == user.Username);
+                counter.Count = 1;
+                counter.T_Id = transport_id;
+            }
+            else
+                counter.Count += 1;
+            db.SaveChanges();
 
             viewData.Routes = new List<ViewData_RouteStops>();
             foreach (var r in viewData.Transport.Routes)

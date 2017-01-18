@@ -27,6 +27,11 @@
       <End Role="Route_Segments" EntitySet="Route_Segments" />
       <End Role="Route" EntitySet="Routes" />
     </AssociationSet>
+    <EntitySet Name="User_Transport_CounterSet" EntityType="TransportWeb_DataModel.User_Transport_Counter" />
+    <AssociationSet Name="User_Transport_CounterUser" Association="TransportWeb_DataModel.User_Transport_CounterUser">
+      <End Role="User_Transport_Counter" EntitySet="User_Transport_CounterSet" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Transport">
     <Key>
@@ -144,6 +149,28 @@
       </Principal>
       <Dependent Role="Route_Segments">
         <PropertyRef Name="R_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="User_Transport_Counter">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="User_Id" Type="Int32" Nullable="false" />
+    <Property Name="T_Id" Type="Int32" Nullable="false" />
+    <Property Name="Count" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="TransportWeb_DataModel.User_Transport_CounterUser" FromRole="User_Transport_Counter" ToRole="User" />
+  </EntityType>
+  <Association Name="User_Transport_CounterUser">
+    <End Type="TransportWeb_DataModel.User_Transport_Counter" Role="User_Transport_Counter" Multiplicity="*" />
+    <End Type="TransportWeb_DataModel.User" Role="User" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User_Transport_Counter">
+        <PropertyRef Name="User_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
