@@ -16,7 +16,7 @@ namespace TransportWeb.Utils
         {
             if (context.Session["language"] == null)
             {
-                if (context.Request.Headers["Accept-Language"] != null && ((string)context.Request.Headers["Accept-Language"]).Contains("lv"))
+                if (context.Request.Headers["Accept-Language"] != null && ((string)context.Request.Headers["Accept-Language"]).IndexOf("lv") < ((string)context.Request.Headers["Accept-Language"]).IndexOf("en"))
                 {
                     context.Session["language"] = "lv";
                 }
