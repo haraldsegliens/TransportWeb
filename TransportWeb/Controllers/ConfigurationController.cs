@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using TransportWeb.Models;
 using System;
 using TransportWeb.Utils;
+using System.Linq;
 
 namespace TransportWeb.Controllers
 {
@@ -18,7 +19,7 @@ namespace TransportWeb.Controllers
         {
             if (config == null)
             {
-                return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, "configuration not found");
+                return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, Localization.getText("conf-not-found"));
             }
 
             var db = new TransportWeb_DataModelContainer();
@@ -52,7 +53,7 @@ namespace TransportWeb.Controllers
             {
                 if (!transports.ContainsKey(route.TransportName))
                 {
-                    return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, route.TransportName + " : transport name not found");
+                    return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, route.TransportName + " : " + Localization.getText("transport-not-found"));
                 }
 
                 var newRoute = db.Routes.Add(new Route());
@@ -63,7 +64,7 @@ namespace TransportWeb.Controllers
                 {
                     if (!stops.ContainsKey(stop.StopName))
                     {
-                        return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, stop.StopName + " : stop not found");
+                        return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, stop.StopName + " : " + Localization.getText("stop-not-found"));
                     }
                     var newSegment = db.Route_Segments.Add(new Route_Segment());
                     newSegment.Order = order;
@@ -82,32 +83,38 @@ namespace TransportWeb.Controllers
                         }
                         catch
                         {
-                            return Request.CreateResponse<string>(System.Net.HttpStatusCode.BadRequest, time + " : invalid time format, must be hh:mm");
+                            return Request.CreateResponse<string>(System.Net.HttpStatusCode.BadRequest, time + Localization.getText("invalid-time"));
                         }
                     }
                     order++;
                 }
             }
             db.SaveChanges();
-            return Request.CreateResponse(System.Net.HttpStatusCode.OK, "configuration loaded");
+            return Request.CreateResponse(System.Net.HttpStatusCode.OK, Localization.getText("conf-loaded"));
         }
         [HttpPost]
         public HttpResponseMessage CreateUser([FromBody]Config_User model)
         {
             if(UserSystem.Authorize(model.username, model.password, model.access))
             {
-                return Request.CreateResponse(System.Net.HttpStatusCode.Created, "user created");
+                return Request.CreateResponse(System.Net.HttpStatusCode.Created, Localization.getText("us-created"));
             }
             else
             {
-                return Request.CreateResponse(System.Net.HttpStatusCode.InternalServerError, "user not created");
+                return Request.CreateResponse(System.Net.HttpStatusCode.InternalServerError, Localization.getText("us-n-created"));
             }
         }
         [HttpPost]
         public HttpResponseMessage DeleteUser([FromBody]Config_User model)
         {
             UserSystem.Unauthorize(model.username);
-            return Request.CreateResponse(System.Net.HttpStatusCode.OK, "user deleted");
+            return Request.CreateResponse(System.Net.HttpStatusCode.OK, Localization.getText("us-delet"));
+        }
+
+        public HttpResponseMessage GetUsers()
+        {
+            var db = new TransportWeb_DataModelContainer();
+            return Request.CreateResponse(System.Net.HttpStatusCode.OK, db.Users.ToList());
         }
     }
 }

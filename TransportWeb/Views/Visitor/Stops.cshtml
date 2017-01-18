@@ -1,20 +1,19 @@
 ﻿@model List<TransportWeb.Models.ViewData_StopTransports>
 
 @{
-    ViewBag.Title = "Stops";
+    ViewBag.Title = TransportWeb.Utils.Localization.getText(Context, "stops");
 }
 
-<h2>Stops</h2>
+<h2>@TransportWeb.Utils.Localization.getText(Context, "stops")</h2>
 
-@using (Html.BeginForm("Stops","Visitor", FormMethod.Get))
-{
+<form method="get" action="/Stops/" onsubmit="return false;">
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
             <div id="imaginary_container">
                 <div class="input-group stylish-input-group">
-                    @Html.TextBox("searchString", null, new { @class="form-control", placeholder = ViewBag.searchString })
+                    <input type="search" name="q" class = "form-control" placeholder="@TransportWeb.Utils.Localization.getText(Context, "search")" value="@ViewBag.searchString" >
                     <span class="input-group-addon">
-                        <button type="submit">
+                        <button type="submit" onclick="window.location.href=this.form.action + this.form.q.value;">
                             <span class="glyphicon glyphicon-search"></span>
                         </button>
                     </span>
@@ -22,7 +21,7 @@
             </div>
         </div>
     </div>
-}
+</form>
 
 @foreach (var stop in Model)
 {
@@ -38,7 +37,6 @@
                 <span class="label label-danger">@express.Number</span>
             }
         </div>
-        
     </div>
 }
 

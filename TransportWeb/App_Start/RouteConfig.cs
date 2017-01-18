@@ -14,6 +14,29 @@ namespace TransportWeb
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Authenticate",
+                url: "Authenticate",
+                defaults: new { controller = "Visitor", action = "Authenticate" }
+            );
+
+            routes.MapRoute(
+                name: "Unauthenticate",
+                url: "unauthenticate",
+                defaults: new { controller = "Visitor", action = "UnAuthenticate" }
+            );
+
+            routes.MapRoute(
+                name: "Error",
+                url: "Error",
+                defaults: new { controller = "Visitor", action = "Error" }
+            );
+            routes.MapRoute(
+                name: "ChangeLanguage",
+                url: "change-language",
+                defaults: new { controller = "Visitor", action = "ChangeLanguage" }
+            );
+
+            routes.MapRoute(
                 name: "Stops",
                 url: "Stops/{query}",
                 defaults: new { controller = "Visitor", action = "Stops", query = UrlParameter.Optional }

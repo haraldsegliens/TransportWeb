@@ -1,14 +1,14 @@
 ﻿@model TransportWeb.Models.ViewData_StopRoutes
 
 @{
-    ViewBag.Title = "Stop";
+    ViewBag.Title = TransportWeb.Utils.Localization.getText(Context,"stop");
 }
 
-<h2>@Model.Stop.Name</h2>
+<h2>@TransportWeb.Utils.Localization.getText(Context,"stop") : @Model.Stop.Name</h2>
 
 <div class="row">
     <div class="col-md-6">
-        <h3>Reisu saraksts</h3>
+        <h3>@TransportWeb.Utils.Localization.getText(Context, "route-list")</h3>
         @foreach (var route in Model.Routes)
         {
             <div class="row">  
@@ -38,7 +38,7 @@
         }
     </div>
     <div class="col-md-6">
-        <h3>Laiku grafiks</h3>
+        <h3>@TransportWeb.Utils.Localization.getText(Context, "timetable")</h3>
         @for( int i = 5; i < 24; i++ )
         {
             <div class="row">

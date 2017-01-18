@@ -201,6 +201,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TransportWeb_DataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Utils\Localization.cs" />
     <Compile Include="Utils\UserSystem.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -224,6 +225,7 @@
     <Content Include="Views\Visitor\Stop.cshtml" />
     <Content Include="Views\Visitor\Transports.cshtml" />
     <Content Include="Views\Visitor\Transport.cshtml" />
+    <Content Include="Views\Visitor\Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -27,6 +27,12 @@ namespace TransportWeb
                 routeTemplate: "api/users/delete",
                 defaults: new { controller = "Configuration", action = "DeleteUser" }
             );
+
+            config.Routes.MapHttpRoute(
+                name: "GetUsers",
+                routeTemplate: "api/users",
+                defaults: new { controller = "Configuration", action = "GetUsers" }
+            );
         }
     }
 }

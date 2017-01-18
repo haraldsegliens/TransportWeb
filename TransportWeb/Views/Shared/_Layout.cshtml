@@ -1,9 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    var user = TransportWeb.Utils.UserSystem.IsAuthenticated(Session);
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Transportu Web</title>
+    <title>@ViewBag.Title - @TransportWeb.Utils.Localization.getText(Context, "product-name")</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
@@ -17,9 +21,32 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Transportu Web", "Index", "Visitor", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink(TransportWeb.Utils.Localization.getText(Context,"product-name"), "Index", "Visitor", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <button type="button" class="btn btn-default navbar-btn navbar-right">Sign in</button>
+            @if (user == null)
+            {
+                <button type="button" class="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#login-modal">@TransportWeb.Utils.Localization.getText(Context, "authenticate")</button>
+            }
+            else
+            {
+                <form action="/unauthenticate" method="POST">
+                    <input type="hidden" name="redirectUrl" value="@Request.Url.ToString()">
+                    <button type="submit" class="btn btn-default navbar-btn navbar-right">@TransportWeb.Utils.Localization.getText(Context, "log-out") @user.Username</button>
+                </form>
+            }
+            <form action="/change-language" method="POST">
+                <input type="hidden" name="redirectUrl" value="@Request.Url.ToString()">
+                @if ((string)Session["language"] == "lv")
+                {
+                    <input type="hidden" name="language" value="en">
+                    <button type="submit" class="btn btn-default navbar-btn navbar-right">English</button>
+                }
+                else
+                {
+                    <input type="hidden" name="language" value="lv">
+                    <button type="submit" class="btn btn-default navbar-btn navbar-right">Latviski</button>
+                }
+            </form>
         </div>
     </div>
 
@@ -27,8 +54,22 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Transportu Web</p>
+            <p>&copy; @DateTime.Now.Year - @TransportWeb.Utils.Localization.getText(Context,"product-name")</p>
         </footer>
+    </div>
+
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="loginmodal-container">
+                <h1>@TransportWeb.Utils.Localization.getText(Context,"login-demand")</h1><br>
+                <form action="/Authenticate" method="POST">
+                    <input type="text" name="username" placeholder="@TransportWeb.Utils.Localization.getText(Context,"username")">
+                    <input type="password" name="password" placeholder="@TransportWeb.Utils.Localization.getText(Context,"password")">
+                    <input type="hidden" name="redirectUrl" value="@Request.Url.ToString()">
+                    <input type="submit" class="login loginmodal-submit" value="Login">
+                </form>
+            </div>
+        </div>
     </div>
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>

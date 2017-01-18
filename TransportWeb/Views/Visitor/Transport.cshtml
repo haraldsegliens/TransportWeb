@@ -1,13 +1,13 @@
 ﻿@model TransportWeb.Models.ViewData_TransportRoutes
 @{
-    ViewBag.Title = "Transport";
+    ViewBag.Title = TransportWeb.Utils.Localization.getText(Context, "transport");
 }
 
-<h2>@(Model.Transport.Type == "normal" ? "" : "Expresis") @Model.Transport.Number</h2>
+<h2>@(Model.Transport.Type == "normal" ? TransportWeb.Utils.Localization.getText(Context, "transport") : TransportWeb.Utils.Localization.getText(Context, "express")) @Model.Transport.Number</h2>
 
 <div class="row">
     <div class="col-md-6">
-        <h3>Reisu saraksts</h3>
+        <h3>@TransportWeb.Utils.Localization.getText(Context, "route-list")</h3>
         @foreach (var route in Model.Routes)
         {
             <div class="row">
@@ -25,7 +25,7 @@
         }
     </div>
     <div class="col-md-6">
-        <h3>Pieturu saraksts</h3>
+        <h3>@TransportWeb.Utils.Localization.getText(Context, "stop-list")</h3>
         @foreach (var stop in Model.Stops)
         {
             <div class="row">

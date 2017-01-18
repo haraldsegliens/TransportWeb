@@ -7,25 +7,32 @@ using System.Web.SessionState;
 using TransportWeb.Models;
 using System.Text;
 using System.Data.Entity.Validation;
+using System.Web;
 
 namespace TransportWeb.Utils
 {
     public static class UserSystem
     {
-        public static bool IsAuthorized(HttpSessionState session,String access)
+        public static bool IsAuthorized(HttpSessionStateBase session,String access)
         {
-            if (session == null)
-                return false;
-
-            if (session["user"] == null)
-                return false;
-            var user = session["user"] as SessionData_User;
-            if (!ValidateSessionKey(user))
-                return false;
+            var user = IsAuthenticated(session);
             return user.Access == access;
         }
 
-        public static bool Authenticate(HttpSessionState session,String username,String password)
+        public static SessionData_User IsAuthenticated(HttpSessionStateBase session)
+        {
+            if (session == null)
+                return null;
+
+            if (session["user"] == null)
+                return null;
+            var user = session["user"] as SessionData_User;
+            if (!ValidateSessionKey(user))
+                return null;
+            return user;
+        }
+
+        public static bool Authenticate(HttpSessionStateBase session,String username,String password)
         {
             if (session == null)
                 return false;
@@ -33,7 +40,7 @@ namespace TransportWeb.Utils
             var db_user = db.Users.FirstOrDefault(u => u.Username == username);
             if (db_user == null)
                 return false;
-            if (!VerifyPassword(password, Encoding.ASCII.GetBytes(db_user.Password_Salt), Encoding.ASCII.GetBytes(db_user.Password_Cache)))
+            if (!SecurePasswordHasher.Verify(password, db_user.Password_Cache))
                 return false;
 
             var session_user = new SessionData_User();
@@ -56,7 +63,7 @@ namespace TransportWeb.Utils
             return true;
         }
 
-        public static void Unauthenticate(HttpSessionState session)
+        public static void Unauthenticate(HttpSessionStateBase session)
         {
             var user = session["user"] as SessionData_User;
             TransportWeb_DataModelContainer db = new TransportWeb_DataModelContainer();
@@ -73,13 +80,11 @@ namespace TransportWeb.Utils
             var db_user = db.Users.FirstOrDefault(u => u.Username == username);
             if (db_user != null)
                 return false;
-            byte[] salt = GenerateSalt();
-
             var user = db.Users.Add(new User());
             user.Username = username;
             user.Access = access;
-            user.Password_Salt = Encoding.ASCII.GetString(GenerateSalt());
-            user.Password_Cache = Encoding.ASCII.GetString(ComputeHash(username, salt));
+            user.Password_Salt = " ";
+            user.Password_Cache = SecurePasswordHasher.Hash(password);
             try { 
                 db.SaveChanges();
             }
@@ -118,41 +123,106 @@ namespace TransportWeb.Utils
                 return false;
             return sessionKey == user.SessionKey;
         }
-        
-        // 24 = 192 bits
-        private const int SaltByteSize = 24;
-        private const int HashByteSize = 24;
-        private const int HasingIterationsCount = 10101;
+    }
+}
 
-        private static byte[] ComputeHash(string password, byte[] salt, int iterations = HasingIterationsCount, int hashByteSize = HashByteSize)
+public sealed class SecurePasswordHasher
+{
+    /// <summary>
+    /// Size of salt
+    /// </summary>
+    private const int SaltSize = 16;
+
+    /// <summary>
+    /// Size of hash
+    /// </summary>
+    private const int HashSize = 20;
+
+    /// <summary>
+    /// Creates a hash from a password
+    /// </summary>
+    /// <param name="password">the password</param>
+    /// <param name="iterations">number of iterations</param>
+    /// <returns>the hash</returns>
+    public static string Hash(string password, int iterations)
+    {
+        //create salt
+        byte[] salt;
+        new RNGCryptoServiceProvider().GetBytes(salt = new byte[SaltSize]);
+
+        //create hash
+        var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations);
+        var hash = pbkdf2.GetBytes(HashSize);
+
+        //combine salt and hash
+        var hashBytes = new byte[SaltSize + HashSize];
+        Array.Copy(salt, 0, hashBytes, 0, SaltSize);
+        Array.Copy(hash, 0, hashBytes, SaltSize, HashSize);
+
+        //convert to base64
+        var base64Hash = Convert.ToBase64String(hashBytes);
+
+        //format hash with extra information
+        return string.Format("$MYHASH$V1${0}${1}", iterations, base64Hash);
+    }
+    /// <summary>
+    /// Creates a hash from a password with 10000 iterations
+    /// </summary>
+    /// <param name="password">the password</param>
+    /// <returns>the hash</returns>
+    public static string Hash(string password)
+    {
+        return Hash(password, 10000);
+    }
+
+    /// <summary>
+    /// Check if hash is supported
+    /// </summary>
+    /// <param name="hashString">the hash</param>
+    /// <returns>is supported?</returns>
+    public static bool IsHashSupported(string hashString)
+    {
+        return hashString.Contains("$MYHASH$V1$");
+    }
+
+    /// <summary>
+    /// verify a password against a hash
+    /// </summary>
+    /// <param name="password">the password</param>
+    /// <param name="hashedPassword">the hash</param>
+    /// <returns>could be verified?</returns>
+    public static bool Verify(string password, string hashedPassword)
+    {
+        //check hash
+        if (!IsHashSupported(hashedPassword))
         {
-            Rfc2898DeriveBytes hashGenerator = new Rfc2898DeriveBytes(password, salt);
-            hashGenerator.IterationCount = iterations;
-            return hashGenerator.GetBytes(hashByteSize);
+            throw new NotSupportedException("The hashtype is not supported");
         }
 
-        private static byte[] GenerateSalt(int saltByteSize = SaltByteSize)
-        {
-            RNGCryptoServiceProvider saltGenerator = new RNGCryptoServiceProvider();
-            byte[] salt = new byte[saltByteSize];
-            saltGenerator.GetBytes(salt);
-            return salt;
-        }
+        //extract iteration and Base64 string
+        var splittedHashString = hashedPassword.Replace("$MYHASH$V1$", "").Split('$');
+        var iterations = int.Parse(splittedHashString[0]);
+        var base64Hash = splittedHashString[1];
 
-        private static bool VerifyPassword(String password, byte[] passwordSalt, byte[] passwordHash)
-        {
-            byte[] computedHash = ComputeHash(password, passwordSalt);
-            return AreHashesEqual(computedHash, passwordHash);
-        }
+        //get hashbytes
+        var hashBytes = Convert.FromBase64String(base64Hash);
 
-        //Length constant verification - prevents timing attack
-        private static bool AreHashesEqual(byte[] firstHash, byte[] secondHash)
+        //get salt
+        var salt = new byte[SaltSize];
+        Array.Copy(hashBytes, 0, salt, 0, SaltSize);
+
+        //create hash with given salt
+        var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations);
+        byte[] hash = pbkdf2.GetBytes(HashSize);
+
+        //get result
+        for (var i = 0; i < HashSize; i++)
         {
-            int minHashLenght = firstHash.Length <= secondHash.Length ? firstHash.Length : secondHash.Length;
-            var xor = firstHash.Length ^ secondHash.Length;
-            for (int i = 0; i < minHashLenght; i++)
-                xor |= firstHash[i] ^ secondHash[i];
-            return 0 == xor;
+            if (hashBytes[i + SaltSize] != hash[i])
+            {
+                return false;
+            }
         }
+        return true;
     }
 }

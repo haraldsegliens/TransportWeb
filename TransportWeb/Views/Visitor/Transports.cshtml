@@ -1,10 +1,10 @@
 ﻿@model List<TransportWeb.Models.ViewData_TransportRoute>
 
 @{
-    ViewBag.Title = "Transports";
+    ViewBag.Title = TransportWeb.Utils.Localization.getText(Context, "transports");
 }
 
-<h2>Transports</h2>
+<h2>@TransportWeb.Utils.Localization.getText(Context, "transports")</h2>
 
 @foreach( var transport in Model )
 {
