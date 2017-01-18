@@ -25,26 +25,28 @@
             </div>
             @if (user == null)
             {
-                <button type="button" class="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#login-modal">@TransportWeb.Utils.Localization.getText(Context, "authenticate")</button>
+                <form action="" class="navbar-form navbar-right" method="POST">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#login-modal">@TransportWeb.Utils.Localization.getText(Context, "authenticate")</button>
+                </form>
             }
             else
             {
-                <form action="/unauthenticate" method="POST">
+                <form action="/unauthenticate" class="navbar-form navbar-right" method="POST">
                     <input type="hidden" name="redirectUrl" value="@Request.Url.ToString()">
-                    <button type="submit" class="btn btn-default navbar-btn navbar-right">@TransportWeb.Utils.Localization.getText(Context, "log-out") @user.Username</button>
+                    <button type="submit" class="btn btn-default">@TransportWeb.Utils.Localization.getText(Context, "log-out") @user.Username</button>
                 </form>
             }
-            <form action="/change-language" method="POST">
+            <form action="/change-language" class="navbar-form navbar-right" method="POST">
                 <input type="hidden" name="redirectUrl" value="@Request.Url.ToString()">
                 @if ((string)Session["language"] == "lv")
                 {
                     <input type="hidden" name="language" value="en">
-                    <button type="submit" class="btn btn-default navbar-btn navbar-right">English</button>
+                    <button type="submit" class="btn btn-default">English</button>
                 }
                 else
                 {
                     <input type="hidden" name="language" value="lv">
-                    <button type="submit" class="btn btn-default navbar-btn navbar-right">Latviski</button>
+                    <button type="submit" class="btn btn-default">Latviski</button>
                 }
             </form>
         </div>

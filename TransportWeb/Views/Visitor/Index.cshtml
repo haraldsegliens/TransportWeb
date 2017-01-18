@@ -2,7 +2,9 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<a class="btn btn-default" href="/Transports" role="button">@TransportWeb.Utils.Localization.getText(Context, "transports")</a>
-<a class="btn btn-default" href="/Stops" role="button">@TransportWeb.Utils.Localization.getText(Context, "stops")</a>
-
+<div class="row" style="margin-top:20px;">
+    <a class="btn btn-default" style="width:100%" href="/Transports" role="button">@TransportWeb.Utils.Localization.getText(Context, "transports")</a>
+</div>
+<div class="row" style="margin-top:20px;">
+    <a class="btn btn-default" style="width:100%" href="/Stops" role="button">@TransportWeb.Utils.Localization.getText(Context, "stops")</a>
+</div>

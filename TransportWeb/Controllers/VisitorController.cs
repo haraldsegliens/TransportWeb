@@ -31,10 +31,10 @@ namespace TransportWeb.Controllers
         }
 
         [HttpPost]
-        public ActionResult UnAuthenticate(string redirectUrl)
+        public ActionResult UnAuthenticate()
         {
             UserSystem.Unauthenticate(this.HttpContext.Session);
-            return Redirect(redirectUrl);
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

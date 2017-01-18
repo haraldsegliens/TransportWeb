@@ -23,20 +23,21 @@
     </div>
 </form>
 
-@foreach (var stop in Model)
-{
-    <div class="row">
-        <div class="col-md-6"><a href="/Stop/@stop.Stop.Id">@stop.Stop.Name</a></div>
-        <div class="col-md-6">
-            @foreach (var normal in stop.NormalTransport)
-            { 
-                <span class="label label-default">@normal.Number</span>
-            }
-            @foreach (var express in stop.ExpressTransport)
-            {
-                <span class="label label-danger">@express.Number</span>
-            }
-        </div>
-    </div>
-}
-
+<div class="list-group">
+    @foreach (var stop in Model)
+    {
+        <a class="list-group-item" onclick="location.href='/Stop/@stop.Stop.Id';">
+            <h4 class="list-group-item-heading">@stop.Stop.Name</h4>
+            <p class="list-group-item-text">
+                @foreach (var normal in stop.NormalTransport)
+                { 
+                    <span class="label label-default">@normal.Number</span>
+                }
+                @foreach (var express in stop.ExpressTransport)
+                {
+                    <span class="label label-danger">@express.Number</span>
+                }
+            </p>
+        </a>
+    }
+</div>

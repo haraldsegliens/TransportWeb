@@ -6,22 +6,26 @@
 
 <h2>@TransportWeb.Utils.Localization.getText(Context, "transports")</h2>
 
-@foreach( var transport in Model )
-{
-    <div class="row" onclick="location.href='/Transport/@transport.Transport.Id';" style="cursor: pointer">
-        <div class="col-md-6">
-            @if (transport.Transport.Type == "normal")
-            {
-                <span class="label label-default">@transport.Transport.Number</span>
-            }
-            else
-            {
-                <span class="label label-danger">@transport.Transport.Number</span>
-            }
-        </div>
-        <div class="col-md-6">
-            @transport.FirstRoute.Name
-        </div>
-    </div>
-}
+<div class="list-group">
+    @foreach (var transport in Model)
+    {
+        <a href="/Transport/@transport.Transport.Id" class="list-group-item">
+            <h4 class="list-group-item-heading">
+                @if (transport.Transport.Type == "normal")
+                {
+                    @TransportWeb.Utils.Localization.getText(Context, "transport")
+                    <span class="label label-default">@transport.Transport.Number</span>
+                }
+                else
+                {
+                    @TransportWeb.Utils.Localization.getText(Context, "express")
+                    <span class="label label-danger">@transport.Transport.Number</span>
+                }
+            </h4>
+            <p class="list-group-item-text">
+                @transport.FirstRoute.Name
+            </p>
+        </a>
+    }
+</div>
 
