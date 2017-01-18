@@ -180,18 +180,20 @@ namespace TransportWeb.Controllers
                 return RedirectToAction("Error", new { cause = Localization.getText(this.HttpContext, "unauth-access") });
             }
 
-            var counter = db.User_Transport_CounterSet.FirstOrDefault(x => x.User.Username == user.Username && x.T_Id == transport_id);
-            if (counter == null)
+            if (user != null)
             {
-                counter = db.User_Transport_CounterSet.Add(new User_Transport_Counter());
-                counter.User = db.Users.First(x => x.Username == user.Username);
-                counter.Count = 1;
-                counter.T_Id = transport_id;
+                var counter = db.User_Transport_CounterSet.FirstOrDefault(x => x.User.Username == user.Username && x.T_Id == transport_id);
+                if (counter == null)
+                {
+                    counter = db.User_Transport_CounterSet.Add(new User_Transport_Counter());
+                    counter.User = db.Users.First(x => x.Username == user.Username);
+                    counter.Count = 1;
+                    counter.T_Id = transport_id;
+                }
+                else
+                    counter.Count += 1;
+                db.SaveChanges();
             }
-            else
-                counter.Count += 1;
-            db.SaveChanges();
-
             viewData.Routes = new List<ViewData_RouteStops>();
             foreach (var r in viewData.Transport.Routes)
             {
