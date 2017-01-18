@@ -66,6 +66,8 @@ namespace TransportWeb.Utils
         public static void Unauthenticate(HttpSessionStateBase session)
         {
             var user = session["user"] as SessionData_User;
+            if (user == null)
+                return;
             TransportWeb_DataModelContainer db = new TransportWeb_DataModelContainer();
             var db_user = db.Users.FirstOrDefault(u => u.Username == user.Username);
             if (db_user == null)

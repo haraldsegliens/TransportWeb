@@ -32,6 +32,8 @@ namespace TransportWeb.Controllers
                 db.Database.ExecuteSqlCommand("DELETE FROM Transports");
             }
 
+            db.Database.ExecuteSqlCommand("DELETE FROM User_Transport_CounterSet");
+
             var transports = new Dictionary<string, Transport>();
             foreach(var transport in config.Transports)
             {

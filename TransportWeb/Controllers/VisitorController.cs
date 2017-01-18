@@ -84,7 +84,7 @@ namespace TransportWeb.Controllers
                 var stopData = new ViewData_StopTransports();
                 stopData.Stop = stop;
                 var routes = db.Timetables.Where(x=>x.S_Id == stopData.Stop.Id).Select(s => s.Route).Distinct();
-                var transports = routes.Select(s => s.Transport);
+                var transports = routes.Select(s => s.Transport).Distinct().OrderBy(x=>x.Number);
                 stopData.NormalTransport = transports.Where(s => s.Type == "normal").ToList();
                 if (user != null && user.Access == "express")
                 {
@@ -115,7 +115,7 @@ namespace TransportWeb.Controllers
             var viewData = new ViewData_StopRoutes();
             viewData.Stop = db.Stops.First(s => s.Id == stop_id);
             var routes = (user == null || user.Access != "express") ? db.Timetables.Where(s => s.Stop.Id == stop_id).Where(s => s.Route.Transport.Type != "express").Select(s => s.Route).Distinct() :
-                db.Timetables.Where(s => s.Stop.Id == stop_id).Select(s => s.Route).Distinct();
+                db.Timetables.Where(s => s.Stop.Id == stop_id).Select(s => s.Route).Distinct().OrderBy(x=>x.Transport.Number);
             viewData.Routes = new List<ViewData_RouteTimetable>();
             foreach (var r in routes)
             {

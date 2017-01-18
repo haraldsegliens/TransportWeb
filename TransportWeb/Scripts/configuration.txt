@@ -1,0 +1,309 @@
+﻿{
+	"Overwrite" : "True",
+	"Transports" : [
+		{ 
+			"Type" : "normal",
+			"Number" : "12"
+		},
+		{ 
+			"Type" : "normal",
+			"Number" : "38"
+		},
+		{ 
+			"Type" : "express",
+			"Number" : "50"
+		}
+	],
+	"Stops" : [
+		"Lāčupes kapi",
+		"Pagrieziens uz kleistiem",
+		"Virbu iela",
+		"Nordeka",
+		"Dzirnciema iela",
+		"Bumbu kalns",
+		"Lielā iela",
+		"Daugavgrīvas šoseja",
+		"Voleri",
+		"19. vidusskola",
+		"Pludmale",
+		"Vakarbuļļi"
+	],
+	"Routes" : [
+		{
+			"Name" : "Lāčupes kapi - Vakarbuļļi",
+			"TransportName" : "normal38",
+			"Stops" : [
+				{
+					"StopName" : "Lāčupes kapi",
+					"Timetable" : [
+						"05:00","07:20","13:30","15:45","21:00","22:50"
+					]
+				},
+				{
+					"StopName" : "Pagrieziens uz kleistiem",
+					"Timetable" : [
+						"05:20","07:40","13:50","16:00","21:20","23:10"
+					]
+				},
+				{
+					"StopName" : "Bumbu kalns",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Lielā iela",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "19. vidusskola",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Pludmale",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Vakarbuļļi",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				}
+			]
+		},
+		{
+			"Name" : "Vakarbuļļi - Lāčupes kapi",
+			"TransportName" : "normal38",
+			"Stops" : [
+				{
+					"StopName" : "Vakarbuļļi",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Pludmale",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "19. vidusskola",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Lielā iela",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Bumbu kalns",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Pagrieziens uz kleistiem",
+					"Timetable" : [
+						"05:20","07:40","13:50","16:00","21:20","23:10"
+					]
+				},
+				{
+					"StopName" : "Lāčupes kapi",
+					"Timetable" : [
+						"05:00","07:20","13:30","15:45","21:00","22:50"
+					]
+				}
+			]
+		},
+		{
+			"Name" : "Vakarbuļļi - Voleri",
+			"TransportName" : "normal12",
+			"Stops" : [
+				{
+					"StopName" : "Vakarbuļļi",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Pludmale",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "19. vidusskola",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Daugavgrīvas šoseja",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Voleri",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				}
+			]
+		},
+		{
+			"Name" : "Voleri - Vakarbuļļi",
+			"TransportName" : "normal12",
+			"Stops" : [
+				{
+					"StopName" : "Voleri",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Daugavgrīvas šoseja",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "19. vidusskola",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Pludmale",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Vakarbuļļi",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				}
+			]
+		},
+		{
+			"Name" : "Vakarbuļļi - Dzirnciema iela",
+			"TransportName" : "express50",
+			"Stops" : [
+				{
+					"StopName" : "Vakarbuļļi",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Pludmale",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "19. vidusskola",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Lielā iela",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Bumbu kalns",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Virbu iela",
+					"Timetable" : [
+						"05:20","07:40","13:50","16:00","21:20","23:10"
+					]
+				},
+				{
+					"StopName" : "Nordeka",
+					"Timetable" : [
+						"05:00","07:20","13:30","15:45","21:00","22:50"
+					]
+				},
+				{
+					"StopName" : "Dzirnciema iela",
+					"Timetable" : [
+						"05:00","07:20","13:30","15:45","21:00","22:50"
+					]
+				}
+			]
+		},
+		{
+			"Name" : "Dzirnciema iela - Vakarbuļļi",
+			"TransportName" : "express50",
+			"Stops" : [
+				{
+					"StopName" : "Dzirnciema iela",
+					"Timetable" : [
+						"05:00","07:20","13:30","15:45","21:00","22:50"
+					]
+				},
+				{
+					"StopName" : "Nordeka",
+					"Timetable" : [
+						"05:00","07:20","13:30","15:45","21:00","22:50"
+					]
+				},
+				{
+					"StopName" : "Virbu iela",
+					"Timetable" : [
+						"05:20","07:40","13:50","16:00","21:20","23:10"
+					]
+				},
+				{
+					"StopName" : "Bumbu kalns",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Lielā iela",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "19. vidusskola",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Pludmale",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				},
+				{
+					"StopName" : "Vakarbuļļi",
+					"Timetable" : [
+						"06:00","08:00","14:10","16:30","21:50","23:50"
+					]
+				}
+			]
+		}
+	]
+}
